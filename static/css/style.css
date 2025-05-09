@@ -1,0 +1,246 @@
+/* Status Cards */
+.status-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.status-item i {
+    font-size: 1.25rem;
+    margin-right: 0.75rem;
+    color: #0d6efd;
+}
+
+.status-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Status Update Animation */
+.status-update {
+    animation: statusHighlight 1s ease;
+}
+
+@keyframes statusHighlight {
+    0% {
+        background-color: #f8f9fa;
+    }
+    50% {
+        background-color: #e3f2fd;
+    }
+    100% {
+        background-color: #f8f9fa;
+    }
+}
+
+/* Blockchain Display */
+.blockchain-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.block {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.block:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.block-index {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+.block-hash {
+    font-family: monospace;
+    font-size: 0.875rem;
+    color: #6c757d;
+    word-break: break-all;
+}
+
+.block-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.block-detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.block-detail-label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+}
+
+.block-detail-value {
+    font-family: monospace;
+    font-size: 0.875rem;
+}
+
+.transactions-list {
+    margin-top: 1rem;
+}
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    background-color: #f8f9fa;
+    margin-bottom: 0.5rem;
+}
+
+.transaction-item:last-child {
+    margin-bottom: 0;
+}
+
+.transaction-details {
+    flex: 1;
+}
+
+.transaction-amount {
+    font-weight: bold;
+    color: #198754;
+}
+
+/* Toast Notifications */
+.toast {
+    background-color: #fff;
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.toast-header {
+    background-color: #fff;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Mining Animation */
+.mining-animation {
+    position: relative;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.mining-icon {
+    font-size: 2.5rem;
+    color: #0d6efd;
+    animation: hammer 1s infinite;
+    margin-bottom: 1rem;
+}
+
+.mining-hash {
+    font-family: monospace;
+    font-size: 1.25rem;
+    color: #6c757d;
+    background-color: #f8f9fa;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #dee2e6;
+}
+
+.hash-prefix {
+    color: #0d6efd;
+}
+
+.mining-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-family: monospace;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+@keyframes hammer {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-30deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(30deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+/* Mining Progress Bar */
+.progress {
+    height: 1.5rem;
+    background-color: #e9ecef;
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: #0d6efd;
+    transition: width 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .block-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .blockchain-container {
+        padding: 0.5rem;
+    }
+    
+    .block {
+        padding: 0.75rem;
+    }
+} 

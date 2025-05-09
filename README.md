@@ -1,128 +1,125 @@
-# Simple Blockchain Simulation in Python
+# Interactive Web-Based Blockchain Simulator
 
-A command-line Python application that simulates a basic blockchain, demonstrating core concepts like blocks, transactions, hashing, Proof-of-Work (including mining time display), and chain validation. The simulation state can be saved to and loaded from a JSON file for persistence.
+A Python and Flask web application that provides an interactive, visual simulation of a basic blockchain. Users can create chains, add transactions, mine blocks, and observe the blockchain's state through a dynamic web interface.
+
+## Screenshots
+
+Here are a couple of screenshots showcasing the application's interface:
+
+**Main Interface Overview:**
+Shows the dashboard, transaction form, mining form, and the blockchain display.
+![Main Interface of the Blockchain Simulator](./screenshots/main.png)
+
+**Mining Process Modal:**
+Illustrates the modal dialog that appears during the Proof-of-Work mining process, showing attempts and a visual representation.
+![Mining Process Animation Modal](./screenshots/mining.png)
 
 ## Features
 
-- **Block Creation:** Implements `Block` objects containing an index, a list of transactions, a timestamp, the hash of the previous block, a nonce, and its own calculated SHA-256 hash.
-- **Transaction Management:** Allows creation of `Transaction` objects (sender, recipient, amount) with basic validation and manages a pool of pending transactions.
-- **Proof-of-Work (PoW):** Includes a simple PoW algorithm where miners search for a nonce that results in a block hash meeting a defined difficulty (number of leading zeros).
-  - **Difficulty:** Configurable when a new blockchain is created.
-  - **Mining Time Display:** The CLI shows how long each mining operation (PoW search) takes.
-- **Mining Rewards:** A conceptual reward is granted to the miner for successfully creating and adding a new block to the chain.
-- **Chain Validation:** A robust validation mechanism checks for:
-  - Integrity of each block's hash (data tampering).
-  - Correctness of the `previous_hash` links between blocks (chain integrity).
-  - Validity of the Proof-of-Work for each block against the current difficulty.
-- **Interactive CLI:** A user-friendly command-line interface allows users to:
-  - Add new transactions.
-  - Mine pending transactions to create new blocks.
-  - Display the entire blockchain's current state in a detailed format.
-  - Validate the integrity of the blockchain.
-  - View transactions currently in the pending pool.
-- **Persistence:** The entire state of the blockchain (chain, pending transactions, difficulty, mining reward) can be saved to a `blockchain_data.json` file and loaded automatically on subsequent runs of the application. Users are also prompted to save on exit.
+- **Core Blockchain Logic:**
+  - **Block Creation:** Implements `Block` objects with index, transactions, timestamp, previous hash, nonce, and SHA-256 hash.
+  - **Transaction Management:** `Transaction` objects (sender, recipient, amount) with basic validation, and a pool for pending transactions.
+  - **Proof-of-Work (PoW):** Simple PoW algorithm; mining difficulty is configurable.
+  - **Mining Time Display:** The UI shows how long each mining operation (PoW search) takes.
+  - **Mining Rewards:** A conceptual reward is granted to the miner for successfully creating and adding a new block to the chain.
+  - **Chain Validation:** Verifies hash links, data integrity, and PoW for all blocks.
+- **Flask Web Backend:**
+  - **RESTful API:** Exposes endpoints to interact with the blockchain (create chain, get status, get blocks, add transaction, mine, validate, save).
+  - **Serves Frontend:** Delivers the HTML, CSS, and JavaScript for the user interface.
+- **Interactive Web Frontend:**
+  - **Dynamic Updates:** Uses JavaScript (`fetch` API) to communicate with the backend and update the UI without page reloads.
+  - **Visual Blockchain Display:** Renders blocks and their transactions in a user-friendly layout.
+  - **Status Dashboard:** Shows current block count, pending transactions, difficulty, and mining reward.
+  - **Forms for Interaction:** Allows users to add transactions and initiate mining.
+  - **Mining Animation:** Provides visual feedback during the mining process.
+  - **Toast Notifications:** Displays success and error messages.
+  - **Responsive Design:** Uses Bootstrap for a clean and responsive layout.
+- **Persistence:**
+  - The blockchain state (chain, pending transactions, difficulty, mining reward) is saved to `blockchain_data.json`.
+  - The application attempts to load this state on startup.
+  - Users can explicitly save the current state via the UI.
 
 ## Requirements
 
-- Python 3.7 or higher. (No external libraries are strictly required beyond the standard library modules like `hashlib`, `json`, and `time`).
+- Python 3.7 or higher.
+- Flask
+- Flask-CORS (optional, for cross-origin API access)
+
+Install dependencies using `pip install -r requirements.txt`. Your `requirements.txt` should ideally contain:
+Flask>=2.0
+Flask-CORS>=3.0
+python-dotenv==1.0.1 # If you use .env files
+
+_(Adjust versions as per your actual `requirements.txt` file)._
 
 ## Setup and Running
 
-1.  **Clone the Repository (Optional):**
-    If you have this project hosted on a Git platform (like GitHub), clone it. Otherwise, ensure you have the project files in a local directory.
-
-    ```bash
-    # git clone <your-repository-url>
-    # cd simple_blockchain_py
-    ```
-
-    If you downloaded the files directly, navigate into the `simple_blockchain_py` directory.
+1.  **Clone or Download:**
+    Ensure you have all project files (`app.py`, `blockchain.py`, `block.py`, `transaction.py`, `requirements.txt`, and the `static/` & `templates/` directories) in a single project folder.
 
 2.  **Create and Activate a Python Virtual Environment (Recommended):**
-    This isolates project dependencies.
+    Open your terminal/command prompt in the project folder:
 
     ```bash
-    # Navigate to your project directory (e.g., simple_blockchain_py)
     python3 -m venv venv
     ```
 
     Activate the environment:
 
-    - **On macOS/Linux:**
-      ```bash
-      source venv/bin/activate
-      ```
-    - **On Windows (Command Prompt):**
-      ```bash
-      venv\Scripts\activate.bat
-      ```
-    - **On Windows (PowerShell):**
-      ```bash
-      venv\Scripts\Activate.ps1
-      ```
-      (If PowerShell activation fails, you might need to run `Set-ExecutionPolicy Unrestricted -Scope Process` first in that PowerShell session.)
+    - **macOS/Linux:** `source venv/bin/activate`
+    - **Windows (Command Prompt):** `venv\Scripts\activate.bat`
+    - **Windows (PowerShell):** `venv\Scripts\Activate.ps1`
+      (If PowerShell fails, try `Set-ExecutionPolicy Unrestricted -Scope Process` first.)
 
-3.  **Run the Application:**
-    Execute the `main.py` script using Python:
+3.  **Install Dependencies:**
+    With the virtual environment activated:
 
     ```bash
-    python3 main.py
+    pip install -r requirements.txt
     ```
 
-4.  **Interact with the CLI:**
-    Upon running, the application will:
-    - Attempt to load an existing blockchain from `blockchain_data.json`.
-    - If not found (or if loading fails), it will prompt you to set a **mining difficulty** for a new blockchain.
-    - A menu will then be displayed, allowing you to:
-      - **Add transactions:** Specify sender, recipient, and amount.
-      - **Mine blocks:** Process pending transactions and perform Proof-of-Work. The time taken for mining will be displayed.
-      - **Display blockchain:** View all blocks and their contents.
-      - **Validate chain:** Check the integrity of the blockchain.
-      - **View pending transactions:** See transactions awaiting mining.
-      - **Save blockchain:** Manually save the current state to `blockchain_data.json`.
-      - **Exit:** Terminate the application (with an option to save the current state).
+4.  **Run the Flask Web Application:**
+    Execute the `app.py` script:
 
-## How It Works - Core Concepts
+    ```bash
+    python3 app.py
+    ```
 
-### Transaction (`transaction.py`)
+    The application will typically start and be accessible at `http://127.0.0.1:5000/`.
 
-A simple class representing a transfer of value, containing `sender`, `recipient`, and `amount`. It includes basic validation (e.g., amount must be positive) and can be converted to a dictionary for easy serialization.
+5.  **Open in Browser:**
+    Navigate to `http://127.0.0.1:5000/` in your web browser.
 
-### Block (`block.py`)
+6.  **Interact with the Web Interface:**
+    - **Create New Chain:** Use the modal (top-right button) to initialize a new blockchain with specified difficulty and mining reward.
+    - **View Status:** The dashboard on the left displays real-time updates to block count, pending transactions, difficulty, and mining reward.
+    - **Add Transactions:** Use the "Add Transaction" form to submit new transactions to the pending pool.
+    - **Mine Block:** Input a miner address in the "Mine Block" form and click the button to initiate Proof-of-Work. A mining animation modal will show progress.
+    - **Display Blockchain:** The main area on the right dynamically displays the chain of blocks, including details for each block and its transactions.
+    - **Validate Chain:** Click the "Validate Chain" button (top-right) to verify the integrity of the current blockchain.
+    - **Save Chain:** Click the "Save Chain" button (top-right) to persist the current state to `blockchain_data.json`. The app also attempts to load this file on startup and offers to save on exit.
 
-The fundamental unit of the blockchain. Each `Block` object stores:
+## How It Works - Web Application Flow
 
-- `index`: Its position in the chain.
-- `transactions`: A list of transaction dictionaries included in the block.
-- `timestamp`: The time of its creation.
-- `previous_hash`: The hash of the block that came before it, linking the chain.
-- `nonce`: A number found during the mining process (Proof-of-Work).
-- `hash`: The block's own cryptographic hash (SHA-256), calculated based on all its content (including the nonce). This hash uniquely identifies the block and secures its data.
+1.  **Backend (Flask - `app.py`):**
 
-### Blockchain (`blockchain.py`)
+    - Initializes a `Blockchain` instance (loading from `blockchain_data.json` if available, or creating a new one).
+    - Exposes several API endpoints (e.g., `/api/blockchain/status`, `/api/blockchain/blocks`, `/api/blockchain/add-transaction`, `/api/blockchain/mine`). These endpoints interact with the `Blockchain` object to perform actions (like adding a transaction or mining) and retrieve data (like the current chain or status).
+    - Serves the main `index.html` page and static assets (CSS, JS).
 
-The main class orchestrating the simulation:
+2.  **Frontend (HTML, CSS, JavaScript - `templates/index.html`, `static/`):**
 
-- **Chain:** A list holding all `Block` objects in sequence.
-- **Pending Transactions:** A pool for `Transaction` objects that have been submitted but not yet included in a block.
-- **Genesis Block:** The first block (index 0) is automatically created for a new blockchain if no existing data is loaded.
-- **Adding Transactions:** New transactions are validated (via the `Transaction` class) and added to the pending pool.
-- **Mining & Proof-of-Work (PoW):**
-  - When `mine_pending_transactions` is called, pending transactions (plus a reward for the miner) are bundled into a new block.
-  - The PoW algorithm (`proof_of_work` method) then iteratively tries different `nonce` values. For each `nonce`, it recalculates the block's hash until a hash is found that meets the `difficulty` target (e.g., starts with a certain number of leading zeros).
-  - The time taken for this PoW search is measured and reported.
-  - The successfully "mined" block (with its valid nonce and hash) is then added to the chain, and pending transactions are cleared.
-- **Validation (`is_chain_valid()`):** This crucial method ensures the blockchain's integrity by performing several checks on each block:
-  1.  **Data Integrity:** Verifies that each block's stored `hash` is correct by recalculating it from the block's content and its stored `nonce`.
-  2.  **Link Integrity:** Ensures that the `previous_hash` of each block correctly matches the `hash` of the actual preceding block in the chain.
-  3.  **Proof-of-Work Validity:** Confirms that the `hash` of each block satisfies the Proof-of-Work difficulty requirement.
-- **Persistence (`save_to_file()`, `load_from_file()`):** The entire state of the blockchain (the chain of blocks, any pending transactions, the current difficulty, and the mining reward value) is converted to a JSON-serializable format. This state can be saved to `blockchain_data.json` and is automatically loaded when the application starts, allowing the simulation to resume.
+    - `index.html`: Provides the HTML structure of the web page, styled with Bootstrap.
+    - `static/css/style.css`: Contains custom CSS for additional styling and animations.
+    - `static/js/app.js`: Handles all client-side interactivity. It makes asynchronous `fetch` requests to the Flask API endpoints. Based on the JSON responses received from the backend, it dynamically updates the HTML content of the page (e.g., refreshing the status dashboard, re-rendering the blockchain display). It also manages form submissions and user feedback through modals and toast notifications.
+
+3.  **Blockchain Core Logic (`blockchain.py`, `block.py`, `transaction.py`):**
+    - The underlying blockchain simulation logic (block creation, Proof-of-Work, validation, save/load) is encapsulated in these Python modules. The Flask backend acts as an interface to this core logic, making it accessible via web requests.
 
 ## Future Enhancements (Potential Ideas)
 
-- **Account Balances:** Implement logic to calculate and display balances for addresses based on transaction history.
-- **More Sophisticated Transaction Validation:** Add checks for sufficient funds before adding a transaction (requires balance tracking).
-- **Network Simulation:** Extend the concept to simulate multiple nodes, consensus mechanisms beyond simple PoW, and block propagation (a significantly more complex endeavor).
-- **Alternative Consensus (Conceptual):** Explore how other consensus mechanisms like Proof-of-Stake might be simulated at a high level.
-- **Web Interface:** Develop a simple web-based UI (e.g., using Flask or Django) as an alternative or addition to the CLI.
-- **Transaction Signatures:** Introduce cryptographic signatures for transactions to verify sender authenticity (requires incorporating public/private key cryptography libraries).
+- **WebSockets:** Replace API polling with WebSockets for more efficient, truly real-time updates.
+- **User Accounts/Wallets:** (More advanced) Introduce a concept of user accounts to manage "wallets" and sign transactions.
+- **Improved UI/UX:** Further refine the user interface for enhanced visual appeal and user experience.
+- **Networked Simulation:** Extend to allow multiple instances of the app to connect and simulate a distributed blockchain network (very advanced).
+- **Transaction Signatures:** Incorporate cryptographic signatures to verify the authenticity of transaction senders.
