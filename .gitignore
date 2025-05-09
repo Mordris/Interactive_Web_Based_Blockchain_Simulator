@@ -17,9 +17,5 @@ ENV/
 *.swo
 
 # Data files (user-generated, not part of source code)
-*.json
-# If you want to commit a sample blockchain_data.json, then don't add the line above.
-# Generally, user data files are ignored.
-# For this project, specifically ignore the default data file:
 blockchain_data.json
-test_blockchain_data.json # If you keep the test file generation in blockchain.py's main
+test_blockchain_data.json
